@@ -21,7 +21,13 @@ CITIES = [
     "Berlin",
     "Paris",
     "Dubai",
-] 
+]
+
+#(float(celsius) * 9 / 5 + 32)
+#lambda fahrenheit = lambda x: float(x)(9/5)+32
+def get_f(celsius):
+    fahrenheit = (float(celsius) * 9 / 5 + 32)
+    return fahrenheit
 
 def get_weather(city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
@@ -53,18 +59,19 @@ def main():
         selected_city = random.choice(CITIES)
         print(f"\nCity: {selected_city}")
         
-        actual_temp = get_weather(selected_city)
-        if actual_temp is None:
+        actual_temp_f = get_f(get_weather(selected_city))
+        
+        if actual_temp_f is None:
             continue
 
         player_temp_guess = player_guess()
         ai_temp_guess = ai_guess(player_temp_guess)
 
         print(f"AI's guess: {ai_temp_guess:.1f}")
-        print(f"Actual temperature: {actual_temp:.1f}")
+        print(f"Actual temperature: {actual_temp_f:.1f}")
 
-        player_score += calculate_score(actual_temp, player_temp_guess)
-        ai_score += calculate_score(actual_temp, ai_temp_guess)
+        player_score += calculate_score(actual_temp_f, player_temp_guess)
+        ai_score += calculate_score(actual_temp_f, ai_temp_guess)
 
         print(f"Your score: {player_score}")
         print(f"AI score: {ai_score}")
